@@ -1,0 +1,32 @@
+.btn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.btn button{
+    width: 40vw;
+    margin: 1em;
+    padding: 1.5em;
+   
+}
+
+.btn .btn1{
+    border: 1px solid palevioletred;
+    background-color: palevioletred;
+    border-radius: 70px;
+}
+
+
+.btn .btn2{
+    border: 1px solid #17a2b8;
+    background-color: #17a2b8;
+    border-radius: 70px;
+}
+
+
+nav h1{
+    text-align: center;
+}
