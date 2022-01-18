@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-var_dump($_SESSION["Login"]);
+// var_dump($_SESSION["Login"]);
 ?>
 
 
@@ -18,9 +18,10 @@ var_dump($_SESSION["Login"]);
 
  <?php
 
-foreach($_SESSION["Login"] as $element){
+foreach($_SESSION["userLogin"] as $element){
     echo "<h1>Welcom $element</h1>";
 }
+
 
 ?>
 

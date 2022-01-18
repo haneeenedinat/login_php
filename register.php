@@ -1,14 +1,34 @@
 <?php
-   session_start();
+//    session_start();
+
+   $username='root';
+   $pass='';
+   
+
+try {
+  $connected = new PDO("mysql:host=localhost;dbname=store",$username,$pass);
+
+  echo "Connected successfully";
+} 
+catch(PDOException $e) {
+  echo "Connection failed: " . $e->getMessage();
+}
+
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 
    $email=$_POST["email"];
    $password=$_POST["password"];
    $confirmpassword=$_POST["confirmpassword"];
+   $userName=$_POST["username"];
 
 
 $regex = "/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/";
+
+ if( empty($userName)){
+    $userNameErr= "The email is not valid";
+   }
+
    if(!preg_match($regex, $email) || empty($email)){
     $emailErr= "The email is not valid";
    }
@@ -22,10 +42,16 @@ $regex = "/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/";
    }
 
    if(preg_match($regex, $email) && !empty($email) && !empty($password) && strlen($password) > 7 && $password == $confirmpassword){
-    $_SESSION["Register"][]=[
-        'Email'=>$email,
-        'password'=>$password,
-    ];
+    // $_SESSION["Register"][]=[
+    //     'Email'=>$email,
+    //     'password'=>$password,
+    // ];
+
+
+
+    $sql = "INSERT INTO users (username,email,password)
+    VALUES ('$userName','$email' , '$password')";
+     $connected->exec($sql);
    
     header("Location: http://localhost/form/login.php/");
     
@@ -33,7 +59,7 @@ $regex = "/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/";
   
 }
 
-var_dump($_SESSION["Register"]);
+// var_dump($_SESSION["Register"]);
 
 ?>
 
@@ -88,6 +114,16 @@ var_dump($_SESSION["Register"]);
                             <div class="card-body p-3">
 
                                 <!--Body-->
+
+                                <div class="form-group">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+                                        </div>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="UserName" ></input>
+                                        <span><?php if(isset( $userNameErr))  echo  $userNameErr."<br>"; ?> </span>
+                                    </div>
+                                </div>
                                                 
                                 <div class="form-group">
                                     <div class="input-group mb-2">

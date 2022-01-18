@@ -1,7 +1,19 @@
 <?php
    session_start();
 
-var_dump($_SESSION["Register"]);
+$username='root';
+$pass='';
+
+try{
+    $connected=new PDO ("mysql:host=localhost;dbname=store",$username,$pass);
+    // echo "Connected successfully";
+}
+
+catch(PDOException $e) {
+  echo "Connection failed: " . $e->getMessage();
+}
+
+// var_dump($_SESSION["Register"]);
 echo "<br>";
 
 
@@ -13,34 +25,62 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
      $messageErr="the password or email not valid";
  }
 
-$result="";
+// $result="";
   
- foreach($_SESSION["Register"] as $element){
-    if($element["Email"]==$email && $element["password"]==$password){
-        $_SESSION["Login"]=[
-            "emailLogin"=>$email,
-        ];
+//  foreach($_SESSION["Register"] as $element){
+//     if($element["Email"]==$email && $element["password"]==$password){
+//         $_SESSION["Login"]=[
+//             "emailLogin"=>$email,
+//         ];
 
-        header("Location: http://localhost/form/welcom.php/");
+//         header("Location: http://localhost/form/welcom.php/");
 
       
       
-    }
+//     }
 
-    else{
+//     else{
        
-   $result= "the password or email is not valid ";
-    }
+//    $result= "the password or email is not valid ";
+//     }
     
 
- }
- echo $result;
+//  }
+//  echo $result;
+
+ $stmt = $connected->prepare("SELECT * FROM users
+  WHERE email='$email' AND password='$password'
+  ");
+// print_r("SELECT userName FROM users  WHERE email='$email' AND password='$password'");
+$stmt->execute();
+// echo $stmt->rowCount();
+if ($stmt->rowCount() != 0) {
+    // echo "true";
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+print_r($row);
+$_SESSION["userLogin"]=[
+$row["userName"],
+];
+    header("Location: http://localhost/form/welcom.php/"); 
+} ;
+
+$admain=$connected->prepare("SELECT * FROM users 
+WHERE email='$email' AND password='$password' AND is_admin=1 ");
+$admain->execute();
+print_r($admain->rowCount());
+
+
+if( $admain->rowCount() !=0){
+    // echo "is admain";
+    header("Location:http://localhost/form/admain/index.html"); 
+
+};
+
+// else {
+//     echo "no Register";
+// }
 
 }
-
-
-
-
 ?>
 
 
