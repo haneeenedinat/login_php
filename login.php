@@ -51,16 +51,33 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
  $stmt = $connected->prepare("SELECT * FROM users
   WHERE email='$email' AND password='$password'
   ");
+  $stmt->execute();
+
+  $dataedittime=$connected->prepare("UPDATE users SET data_last_login=CURRENT_TIMESTAMP
+   WHERE  email='$email' AND password='$password'");
+$dataedittime->execute();
+
+
+
+
+
+
+
+
 // print_r("SELECT userName FROM users  WHERE email='$email' AND password='$password'");
-$stmt->execute();
+
 // echo $stmt->rowCount();
 if ($stmt->rowCount() != 0) {
     // echo "true";
+ 
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 print_r($row);
 $_SESSION["userLogin"]=[
 $row["userName"],
 ];
+
+
+
     header("Location: http://localhost/form/welcom.php/"); 
 } ;
 
