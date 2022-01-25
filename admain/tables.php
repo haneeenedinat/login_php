@@ -53,6 +53,11 @@ include_once '../connected.php';
        padding:0.2em 1em;
    }
 
+   tr td img{
+       width:15vw;
+       height:20vh
+   }
+
    .link{
     background:blue;
        border:none;
@@ -458,7 +463,7 @@ include_once '../connected.php';
                                      echo "<td>$element[email]</td>";
                                      echo "<td>$element[password]</td>";
                                      
-                                     echo "<td><a href='delete.php?id=$element[id]'>delete</a></td>";
+                                     echo "<td><a href='delete.php?id=$element[id]&&name=users'>delete</a></td>";
                                      echo "<td><a class='edit' href='edit.php?id=$element[id]'>Edit</a></td>";
                                     echo  "</tr>";
 
@@ -493,6 +498,15 @@ include_once '../connected.php';
 
             </div>
             <!-- End of Main Content -->
+
+
+
+
+
+
+
+
+            </div>
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
